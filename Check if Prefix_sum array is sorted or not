@@ -1,0 +1,47 @@
+C++ Code:
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    int n;
+    cin>>n;
+    vector<int>v(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>v[i];
+    }
+    vector<int>PrefixSum(n);
+    PrefixSum[0]=v[0];
+    bool isSorted=true;
+    for(int i=1;i<n;i++)
+    {
+        PrefixSum[i]=PrefixSum[i-1]+v[i];
+        if(PrefixSum[i]<PrefixSum[i-1])
+        {
+            isSorted=false;
+        }
+    }
+    for(auto num:PrefixSum)
+    {
+        cout<<num<<" ";
+    }
+    cout<<endl;
+    cout<<(isSorted ? "True" :"False")<<endl;
+}
+
+Input 1:
+5
+1 2 3 4 5
+
+Output 1:
+1 3 6 10 15 
+True
+
+Input 2:
+5
+1 2 3 -4 5
+
+Output:
+1 3 6 2 7 
+False
