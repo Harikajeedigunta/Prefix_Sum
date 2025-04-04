@@ -1,0 +1,78 @@
+C++ Code:
+Method 1:Brute Force
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    int n,m;
+    cin>>n>>m;
+    vector<int>v(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>v[i];
+    }
+    for(int i=0;i<n;i++)
+    {
+        int sum=0;
+        for(int j=i;j<n;j++)
+        {
+            sum+=v[j];
+            if(sum==m)
+            {
+                for(int k=i;k<=j;k++)
+                {
+                    cout<<v[k]<<" ";
+                }
+                cout<<endl;
+            }
+        }
+    }
+}
+
+Method 2: Using prefix sum
+#include<iostream>
+#include<vector>
+#include<unordered_map>
+using namespace std;
+int main()
+{
+    int n,k;
+    cin>>n>>k;
+    vector<int>v(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>v[i];
+    }
+    unordered_map<int,vector<int>>PrefixMap;
+    PrefixMap[0].push_back(-1);
+    int sum=0;
+    for(int i=0;i<n;i++)
+    {
+        sum+=v[i];
+        int target=sum-k;
+        if(PrefixMap.find(target)!=PrefixMap.end())
+        {
+            vector<int>startindices=PrefixMap[target];
+            for(int idx=0;idx<startindices.size();idx++)
+            {
+                int start=startindices[idx]+1;
+                int end=i;
+                for(int j=start;j<=end;j++) 
+                {
+                    cout<<v[j]<<" ";
+                }
+                cout<<endl;
+            }
+        }
+        PrefixMap[sum].push_back(i);
+    }
+}
+
+Input:
+3 3
+1 2 3
+
+Output:
+1 2 
+3 
